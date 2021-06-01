@@ -40,16 +40,19 @@ with open(input_path, "r") as datafile:
     # creating candidate rankings
     while len(candidate_ranks) < len(candidate_list):
         for candidate in candidate_list:
+            # checks if candidate has already been ranked
             if candidate in candidate_ranks:
                 pass
-            elif vote_by_candidates[candidate] > vote_count and candidate:
+            # if not, candidate is compared to one another and then added to ranks
+            elif vote_by_candidates[candidate] > vote_count:
                 top_candidate = candidate
                 vote_count = (vote_by_candidates[candidate])
-
         candidate_ranks.append(top_candidate)
+        # resets the parameters at the end of the for loop
         top_candidate = ""
         vote_count = 0
 
+    # creating output based on unknown # of candidates
     output_intro = f'''
 Election Results
 -------------------------
@@ -69,5 +72,6 @@ Winner: {candidate_ranks[0]}
 
     print(final_output)
 
+# exporting report to txt file
 with open(output_path, 'w') as report_file:
     report_file.write(final_output)
