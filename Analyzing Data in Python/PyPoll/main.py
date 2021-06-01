@@ -7,7 +7,8 @@ def percentage(num, total):
     return percent
 
 
-path = os.path.join("Resources", "election_data.csv")
+input_path = os.path.join("Resources", "election_data.csv")
+output_path = os.path.join("analysis", "analysis.txt")
 
 total_votes = 0
 candidate_list = []
@@ -17,7 +18,7 @@ vote_count = 0
 candidate_ranks = []
 lower_ranks = []
 
-with open(path, "r") as datafile:
+with open(input_path, "r") as datafile:
     reader = csv.reader(datafile, delimiter=",")
     header = next(reader)
 
@@ -49,7 +50,7 @@ with open(path, "r") as datafile:
         top_candidate = ""
         vote_count = 0
 
-    output = f'''
+    output_intro = f'''
 Election Results
 -------------------------
 Total Votes: {total_votes}
@@ -57,6 +58,13 @@ Total Votes: {total_votes}
 '''
 
     for candidate in candidate_ranks:
-        output += f"{candidate}: {vote_by_candidates[candidate]/total_votes} ({vote_by_candidates[candidate]})\n"
+        output_intro += f"{candidate}: {percentage(vote_by_candidates[candidate],total_votes)}% ({vote_by_candidates[candidate]})\n"
 
-    print(output)
+    winner_output = f'''
+-------------------------
+Winner: {candidate_ranks[0]}
+-------------------------'''
+
+    final_output = output_intro.strip() + winner_output
+
+    print(final_output)
