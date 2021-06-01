@@ -68,3 +68,6 @@ Winner: {candidate_ranks[0]}
     final_output = output_intro.strip() + winner_output
 
     print(final_output)
+
+with open(output_path, 'w') as report_file:
+    report_file.write(final_output)
