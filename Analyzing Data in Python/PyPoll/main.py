@@ -1,6 +1,12 @@
 import os
 import csv
 
+
+def percentage(num, total):
+    percent = round(num/total*100, 2)
+    return percent
+
+
 path = os.path.join("Resources", "election_data.csv")
 
 total_votes = 0
@@ -30,6 +36,7 @@ with open(path, "r") as datafile:
         # adds a vote to the candidate
         vote_by_candidates[row[2]] += 1
 
+    # creating candidate rankings
     while len(candidate_ranks) < len(candidate_list):
         for candidate in candidate_list:
             if candidate in candidate_ranks:
@@ -42,4 +49,14 @@ with open(path, "r") as datafile:
         top_candidate = ""
         vote_count = 0
 
-    print(candidate_ranks)
+    output = f'''
+Election Results
+-------------------------
+Total Votes: {total_votes}
+-------------------------
+'''
+
+    for candidate in candidate_ranks:
+        output += f"{candidate}: {vote_by_candidates[candidate]/total_votes} ({vote_by_candidates[candidate]})\n"
+
+    print(output)
