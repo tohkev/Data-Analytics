@@ -6,9 +6,10 @@ path = os.path.join("Resources", "election_data.csv")
 total_votes = 0
 candidate_list = []
 vote_by_candidates = {}
-candidate_rank = []
 top_candidate = ""
 vote_count = 0
+candidate_ranks = []
+lower_ranks = []
 
 with open(path, "r") as datafile:
     reader = csv.reader(datafile, delimiter=",")
@@ -26,11 +27,19 @@ with open(path, "r") as datafile:
             # adds dictionary entry into vote_by_candidates if not there
             vote_by_candidates[row[2]] = 0
 
+        # adds a vote to the candidate
         vote_by_candidates[row[2]] += 1
 
-    for key in vote_by_candidates.keys():
-        if vote_by_candidates[key] > vote_count:
-            top_candidate = key
-            vote_count = vote_by_candidates[key]
+    while len(candidate_ranks) < len(candidate_list):
+        for candidate in candidate_list:
+            if candidate in candidate_ranks:
+                pass
+            elif vote_by_candidates[candidate] > vote_count and candidate:
+                top_candidate = candidate
+                vote_count = (vote_by_candidates[candidate])
 
-    print(top_candidate, vote_count)
+        candidate_ranks.append(top_candidate)
+        top_candidate = ""
+        vote_count = 0
+
+    print(candidate_ranks)
